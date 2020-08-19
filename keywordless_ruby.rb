@@ -70,6 +70,17 @@ class Object
     self < b
   end
 
+  def and(b)
+    self && b
+  end
+
+  def or(b)
+    self || b
+  end
+
+  def negated
+    !self
+  end
 end
 
 class FalseClass
@@ -80,6 +91,26 @@ class FalseClass
   def if_false
     yield
 
+    self
+  end
+
+  def negated
+    !self
+  end
+end
+
+class TrueClass
+  def negated
+    !self
+  end
+
+  def if_true
+    yield
+
+    self
+  end
+
+  def if_false
     self
   end
 end
@@ -93,6 +124,9 @@ class NilClass
     yield
 
     self
+  end
+    def negated
+    !self
   end
 end
 
@@ -127,6 +161,10 @@ def assign(a, b)
   $main_obj.class.class_eval("attr_accessor :#{a}")
 
   b
+end
+
+def not(a)
+  !a
 end
 
 # ##############################################################################
@@ -169,7 +207,12 @@ puts C
 
 
 # Bool operations
-a.gt? b
+a.gt?(b)
   .if_true { puts 'a is greater' }
   .if_false { puts 'b is greater' }
 
+false.or not(true)
+  .if_true { raise 'false or not true' }
+
+true.and true.negated
+  .if_true { raise 'true and not true' }
