@@ -131,6 +131,8 @@ end
 
 # ##############################################################################
 
+# Class creation
+
 defclass :User do
   initializer do |name:|
     ivar_set(:name, name)
@@ -143,25 +145,31 @@ defclass :User do
   defmethod(:name) { @name }
 end
 
+pp User.with(name: 'matheus').name
+
+
+# Module creation
 defmodule :Asdf do
   def_singleton_method :asdf do
     puts 'asdf'
   end
 end
 
-pp User.with(name: 'matheus').name
-
 Asdf.asdf
 
+
+# Assigning stuff
 :a.is 1
 assign(:b, 2)
 const(:C, 3)
 
 puts 'a:'.plus a.to_s
 puts 'b:'.plus b.to_s
+puts C
 
+
+# Bool operations
 a.gt? b
   .if_true { puts 'a is greater' }
   .if_false { puts 'b is greater' }
 
-puts C
