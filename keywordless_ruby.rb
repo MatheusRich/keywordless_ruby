@@ -197,19 +197,27 @@ Asdf.asdf
 
 
 # Assigning stuff
+
 :a.is 1
 assign(:b, 2)
 const(:C, 3)
 
-puts 'a:'.plus a.to_s
-puts 'b:'.plus b.to_s
+puts "a: #{a}"
+# => a: 1
+
+puts "b: #{b}"
+# => b: 2
+
 puts C
+# => 3
 
 
 # Bool operations
+
 a.gt?(b)
   .if_true { puts 'a is greater' }
   .if_false { puts 'b is greater' }
+# => b is greater
 
 false.or not(true)
   .if_true { raise 'false or not true' }
