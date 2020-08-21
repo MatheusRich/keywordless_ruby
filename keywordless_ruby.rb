@@ -11,12 +11,16 @@
 $main_obj = self
 
 class Object
-  def self.initializer(&block)
+  def self.init(&block)
     define_method(:initialize, &block)
   end
   
   def ivar_set(name, value)
     instance_variable_set(:"@#{name}", value)
+  end
+
+  def ivar(name)
+    instance_variable_get(:"@#{name}")
   end
 
   def def_singleton_method(name, &block)
@@ -134,6 +138,10 @@ class Symbol
   def is(value)
     assign(self, value)
   end
+
+  def to_ivar(value = nil)
+    instance_variable_set("@#{self}", value)
+  end
 end
 
 def defclass(name, inherits: Object, &block)
@@ -172,8 +180,11 @@ end
 # Class creation
 
 defclass :User do
-  initializer do |name:|
+  init do |name:, age:, is_crazy: true|
     ivar_set(:name, name)
+    :age.to_ivar(age)
+    :is_crazy.to_ivar
+    @is_crazy = is_crazy
   end
 
   def_singleton_method :with do |*args, **kwargs|
@@ -183,7 +194,7 @@ defclass :User do
   defmethod(:name) { @name }
 end
 
-pp User.with(name: 'matheus').name
+pp User.with(name: 'Matheus', age: 22)
 
 
 # Module creation
