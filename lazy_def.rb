@@ -28,7 +28,11 @@ class Me
     @name = 'Matheus'
   end
 
-  adjective do |what|
+  say_hey do
+    puts 'Hey!'
+  end
+
+  is do |what|
     @name + ' is ' + what
   end
 
@@ -37,5 +41,13 @@ class Me
   end
 end
 
-pp Me.new.adjective 'crazy'
-pp Me.nationality
+me = Me.new
+
+me.say_hey
+# => Hey!
+
+puts me.is 'crazy'
+# => "Matheus is crazy"
+
+puts Me.nationality
+# => "Brazilian"
