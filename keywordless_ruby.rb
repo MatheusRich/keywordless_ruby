@@ -15,7 +15,7 @@ class Object
     define_method(:initialize, &block)
   end
   
-  def ivar_set(name, value)
+  def set_ivar(name, value)
     instance_variable_set(:"@#{name}", value)
   end
 
@@ -138,10 +138,6 @@ class Symbol
   def is(value)
     assign(self, value)
   end
-
-  def to_ivar(value = nil)
-    instance_variable_set("@#{self}", value)
-  end
 end
 
 def defclass(name, inherits: Object, &block)
@@ -181,21 +177,17 @@ end
 
 defclass :User do
   init do |name:, age:, is_crazy: true|
-    ivar_set(:name, name)
-    :age.to_ivar(age)
-    :is_crazy.to_ivar
-    @is_crazy = is_crazy
+    set_ivar(:name, name)
   end
 
   def_singleton_method :with do |*args, **kwargs|
     new(*args, **kwargs)
   end
 
-  defmethod(:name) { @name }
+  defmethod(:name) { ivar :name }
 end
 
 pp User.with(name: 'Matheus', age: 22)
-
 
 # Module creation
 defmodule :Asdf do
